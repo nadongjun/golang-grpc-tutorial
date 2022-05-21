@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"strconv"
 	"time"
 
 	pb "go_project/service"
@@ -13,6 +15,8 @@ import (
 const (
 	address = "localhost:50051"
 )
+
+var intStream chan int
 
 func InsertData(msg string) {
 	log.Println("InsertData")
@@ -29,10 +33,19 @@ func InsertData(msg string) {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	log.Printf("Data Id : %s", r.GetId())
-
+	log.Println(r.GetId())
+	id, err := strconv.Atoi(r.GetId())
+	intStream <- id
+	defer close(intStream)
+	defer fmt.Println("Grpc Done.")
 }
 
 func main() {
-	InsertData("Hi")
+	intStream = make(chan int, 4)
+	go InsertData("Hi")
+
+	for intValue := range intStream {
+		fmt.Println("Insert Data Id :", intValue)
+	}
+
 }

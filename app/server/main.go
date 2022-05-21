@@ -16,7 +16,7 @@ type server struct {
 
 func (s *server) InsertData(ctx context.Context, in *pb.InsertMsg) (*pb.InsertResponse, error) {
 	log.Printf("Received Message: %s", in.GetMsg())
-	return &pb.InsertResponse{Id: "id", ResponseCode: 200}, nil
+	return &pb.InsertResponse{Id: "999", ResponseCode: 200}, nil
 }
 
 func (s *server) GetData(ctx context.Context, in *pb.GetMsg) (*pb.GetResponse, error) {

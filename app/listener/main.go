@@ -14,7 +14,7 @@ const (
 	address = "localhost:50051"
 )
 
-func InsertData(msg string) {
+func GetData(id string) {
 	log.Println("InsertData")
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -25,14 +25,14 @@ func InsertData(msg string) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.InsertData(ctx, &pb.InsertMsg{Msg: msg})
+	r, err := c.GetData(ctx, &pb.GetMsg{Id: id})
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	log.Printf("Data Id : %s", r.GetId())
+	log.Printf("Data : %s", r.GetMsg())
 
 }
 
 func main() {
-	InsertData("Hi")
+	GetData("Hi")
 }
