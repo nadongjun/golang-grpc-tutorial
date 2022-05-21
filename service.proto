@@ -1,0 +1,26 @@
+syntax = "proto3";
+option go_package = "./service";
+package service;
+
+service ServiceInterface {
+    rpc InsertData(InsertMsg) returns(InsertResponse) {}
+    rpc GetData(GetMsg) returns(GetResponse) {}
+}
+
+message InsertMsg {
+    string msg = 1;
+}
+
+message InsertResponse {
+    string id = 1;
+    int32 responseCode = 2;
+}
+
+message GetMsg {
+    string id = 1;
+}
+
+message GetResponse {
+    string msg = 1;
+    int32 responseCode = 2;
+}
